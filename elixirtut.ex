@@ -4,16 +4,27 @@ defmodule M do
   end
 
   def do_stuff do
-    age = 16
+    get_sum = fn (x, y) -> x + y end
 
-    case 2 do
-      1 -> IO.puts "Entered 1"
-      2 -> IO.puts "Entered 2"
-      _ -> IO.puts "Default"
+    IO.puts "5+5= #{get_sum.(5,5)}"
+
+    get_less = &(&1 - &2)
+
+    IO.puts "10-3= #{get_less.(10,3)}"
+
+    add_sum = fn ->
+      {x,y}-> IO.puts "#{x} + #{y} = #{x+y}"
+      {x,y,z}-> IO.puts "#{x} + #{y} + #{z} = #{x+y+z}"
     end
 
-    IO.puts "Ternary : #{if age > 18, do: "Can Vote", else: "Can't Vote"}"
+    add_sum.({1,2})
   end
+
+  def display_list([word|words]) do
+    IO.puts word
+    display_list(words)
+  end
+  def display_list([]), do: nil
 
 end
 
@@ -90,3 +101,76 @@ end
 #    end
 #
 #    IO.puts "Ternary : #{if age > 18, do: "Can Vote", else: "Can't Vote"}"
+
+#Tuples
+#    my_stats = {212, 6.0, :Derek}
+#    IO.puts "Tuple #{is_tuple(my_stats)}"
+#    my_stats2 = Tuple.append(my_stats, 27)
+#    IO.puts "Age #{elem(my_stats2, 3)}"
+#    IO.puts "Size : #{tuple_size(my_stats2)}"
+#    my_stats3 = Tuple.delete_at(my_stats2, 0)
+#    IO.puts "my_stats3 (post-delete) : #{Enum.join(Tuple.to_list(my_stats3))}"
+#    my_stats4 = Tuple.insert_at(my_stats3, 0, 1991)
+#    IO.puts "my_stats4 (post-insert) : #{Enum.join(Tuple.to_list(my_stats4))}"
+#    many_zeroes = Tuple.duplicate(0,5)
+#    IO.puts "many_zeroes : #{Enum.join(Tuple.to_list(many_zeroes))}"
+#    {weight, height, name} = {212, 6, "Derek"}
+#    IO.puts "Weight : #{weight}"
+
+#lists
+#  def main do
+#    do_stuff()
+#  end
+#
+#  def do_stuff do
+#    list1 = [1,2,3]
+#    list2 = [4,5,6]
+#    list3 = list2 ++ list1
+#    list4 = list3 -- list1
+#    IO.puts 6 in list2
+#    [head | tail] = list3
+#    IO.puts "Head : #{head}"
+#    IO.write "Tail : "
+#    IO.inspect tail
+#    IO.inspect [97,98], charlists: :as_lists
+#    Enum.each tail, fn item ->
+#      IO.puts item
+#    end
+#
+#    words = ["random", "words", "in a", "list"]
+#    Enum.each words, fn zxc ->
+#      IO.puts zxc
+#    end
+#
+#    display_list(words)
+#
+#    IO.puts display_list(List.insert_at(words, 1, "Added"))
+#
+#    IO.puts "List.first : #{List.first(words)}"
+#    IO.puts "List.last : #{List.last(words)}"
+#
+#  end
+#
+#  def display_list([word|words]) do
+#    IO.puts word
+#    display_list(words)
+#  end
+#  def display_list([]), do: nil
+
+#####maps
+#    capitals = %{"Alabama" => "Montgomery",
+#      "Alaska" => "Juneau", "Arizona" => "Phoenix"}
+#
+#    IO.puts "Capital of Alaska is #{capitals["Alaska"]}"
+#
+#    capitals2 = %{alabama: "Montgomery", alaska: "Juneau", arizona: "Phoenix"}
+#
+#    IO.puts "Capital of Arizona is #{capitals2.arizona}"
+#
+#    capitals3 = Dict.put_new(capitals, "Arkansas", "Little Rock")
+
+#####pattern matching
+#    [length, width] = [20,30]
+#    IO.puts "Width : #{width}"
+#    [_, [_, a] ] = [20, [30, 40]]
+#    IO.puts "Get Num : : #{a}"
