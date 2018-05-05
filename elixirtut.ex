@@ -12,12 +12,19 @@ defmodule M do
 
     IO.puts "10-3= #{get_less.(10,3)}"
 
-    add_sum = fn ->
-      {x,y}-> IO.puts "#{x} + #{y} = #{x+y}"
-      {x,y,z}-> IO.puts "#{x} + #{y} + #{z} = #{x+y+z}"
+    add_sum = fn
+      {x,y} -> IO.puts "#{x} + #{y} = #{x+y}"
+      {x,y,z} -> IO.puts "#{x} + #{y} + #{z} = #{x+y+z}"
     end
 
     add_sum.({1,2})
+    add_sum.({1,2,3})
+
+    IO.puts do_it()
+  end
+
+  def do_it(x \\ 1, y \\ 1) do
+    x + y
   end
 
   def display_list([word|words]) do
@@ -174,3 +181,27 @@ end
 #    IO.puts "Width : #{width}"
 #    [_, [_, a] ] = [20, [30, 40]]
 #    IO.puts "Get Num : : #{a}"
+
+#####anonymous functions, default values, other ways to write functions, multiple parameters
+#    get_sum = fn (x, y) -> x + y end
+#
+#    IO.puts "5+5= #{get_sum.(5,5)}"
+#
+#    get_less = &(&1 - &2)
+#
+#    IO.puts "10-3= #{get_less.(10,3)}"
+#
+#    add_sum = fn
+#      {x,y} -> IO.puts "#{x} + #{y} = #{x+y}"
+#      {x,y,z} -> IO.puts "#{x} + #{y} + #{z} = #{x+y+z}"
+#    end
+#
+#    add_sum.({1,2})
+#    add_sum.({1,2,3})
+#
+#    IO.puts do_it()
+#  end
+#
+#  def do_it(x \\ 1, y \\ 1) do
+#    x + y
+#  end
