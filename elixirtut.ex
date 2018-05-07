@@ -4,27 +4,32 @@ defmodule M do
   end
 
   def do_stuff do
-    get_sum = fn (x, y) -> x + y end
 
-    IO.puts "5+5= #{get_sum.(5,5)}"
+    spawn(fn() -> myloop(50,1) end)
+    spawn(fn() -> myloop(100,50) end)
 
-    get_less = &(&1 - &2)
+    send(self(), {:french, "Bob"})
 
-    IO.puts "10-3= #{get_less.(10,3)}"
-
-    add_sum = fn
-      {x,y} -> IO.puts "#{x} + #{y} = #{x+y}"
-      {x,y,z} -> IO.puts "#{x} + #{y} + #{z} = #{x+y+z}"
+    receive do
+      {:german, name} -> IO.puts "Guten tag #{name}"
+      {:french, name} -> IO.puts "Bonjour #{name}"
+      {:mandarin, name} -> IO.puts "Ni hao #{name}"
+      {:english, name} -> IO.puts "Hello #{name}"
+    after
+      500 -> IO.puts "Time up"
     end
 
-    add_sum.({1,2})
-    add_sum.({1,2,3})
-
-    IO.puts do_it()
   end
 
-  def do_it(x \\ 1, y \\ 1) do
-    x + y
+  def myloop(0,_), do: nil
+
+  def myloop(max, min) do
+    if max < min do
+      myloop(0, min)
+    else
+      IO.puts "Num : #{max}"
+      myloop(max - 1, min)
+    end
   end
 
   def display_list([word|words]) do
@@ -205,3 +210,89 @@ end
 #  def do_it(x \\ 1, y \\ 1) do
 #    x + y
 #  end
+
+####recursion via factorials
+#    IO.puts "Factorial of 4 : #{factorial(4)}"
+#
+#  end
+#
+#  def factorial(num) do
+#    if num <= 1 do
+#      1
+#    else
+#      result = num * factorial(num-1)
+#      result
+#    end
+
+#####recursion via array / sum, loop
+#    IO.puts "Sum : #{sum([1,2,3])}"
+#
+#    myloop(5, 1)
+#
+#  end
+#
+#  def sum([]), do: 0
+#
+#  def sum([h|t]), do: h + sum(t)
+#
+#  def myloop(0,_), do: nil
+#
+#  def myloop(max, min) do
+#    if max < min do
+#      myloop(0, min)
+#    else
+#      IO.puts "Num : #{max}"
+#      myloop(max - 1, min)
+#    end
+
+#####Enumerables
+#    IO.puts "All even in list : #{Enum.all?([1,2,3],
+#    fn(n)->rem(n, 2) == 0 end)}"
+#
+#    IO.puts "Any even in list : #{Enum.any?([1,2,3],
+#    fn(n)->rem(n, 2) == 0 end)}"
+#
+#    Enum.each([1,2,3], fn(n) -> IO.puts n end)
+#
+#    dbl_list = Enum.map([1,2,3], fn(x) -> x * 2 end)
+#    IO.inspect dbl_list
+#
+#    sum_vals = Enum.reduce([1,2,3], fn(n, sum) -> n + sum end)
+#    IO.puts "Sum : #{sum_vals}"
+#
+#    IO.inspect Enum.uniq([1,2,2,2,2,2,2,5,6])
+
+#####List comprehensions
+#    dbl_list = for n <- [3,4,5], do: n * 2
+#    IO.inspect dbl_list
+#
+#    even_list = for n <- [1,2,3,4], rem(n,2) == 0, do: n
+#    IO.inspect even_list
+#
+#    over_ten_list = for n <- [4,5,6,7], do: n * 2
+#    over_ten_list_test = for n <- over_ten_list, n >= 10, do: n
+#    IO.inspect over_ten_list_test
+
+#####exception handling
+#    err = try do
+#      5 / 0
+#    rescue
+#      ArithmeticError -> "Can't Divide by Zero"
+#    end
+#
+#    IO.puts err
+
+#####concurrency
+#    spawn(fn() -> myloop(50,1) end)
+#    spawn(fn() -> myloop(100,50) end)
+#
+#    send(self(), {:french, "Bob"})
+#
+#    receive do
+#      {:german, name} -> IO.puts "Guten tag #{name}"
+#      {:french, name} -> IO.puts "Bonjour #{name}"
+#      {:mandarin, name} -> IO.puts "Ni hao #{name}"
+#      {:english, name} -> IO.puts "Hello #{name}"
+#    after
+#      500 -> IO.puts "Time up"
+#    end
